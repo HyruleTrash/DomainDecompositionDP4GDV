@@ -1,0 +1,33 @@
+@startuml
+class RoomManager
+class Room
+class Pool
+note top: <i>List of references to randomly pick from</i>
+
+abstract Tile
+class Wall
+class Walkable
+class Hazardous
+class Trap
+class Interactable
+
+class WellOfCharon
+class TrailOfTheGods
+class PoolOfPurging
+
+class Animator
+class WaveManager
+class Enemy
+class Player
+class Boon
+
+Wall --> Tile
+Walkable --> Tile
+Hazardous --> Tile
+Trap --> Tile
+Interactable --> Tile
+
+WellOfCharon --> Interactable
+TrailOfTheGods --> Interactable
+PoolOfPurging --> Interactable
+@enduml
