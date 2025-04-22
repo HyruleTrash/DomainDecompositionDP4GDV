@@ -1,10 +1,12 @@
 @startuml
 class RoomManager
 class Room
-class Pool
+abstract Pool
 note top: <i>List of references to randomly pick from</i>
+abstract class "PoolOfRooms"
 
 abstract Tile
+class AnimatedTile
 class Wall
 class Walkable
 class Hazardous
@@ -14,20 +16,54 @@ class Interactable
 class WellOfCharon
 class TrailOfTheGods
 class PoolOfPurging
+abstract class "PoolOfItems"
+abstract class "PoolOfTrails"
+
+class Item
 
 class Animator
+
 class WaveManager
 class Enemy
+abstract class "PoolOfEnemys"
+
 class Player
 class Boon
+abstract class "PoolOfBoons"
 
-Wall --> Tile
-Walkable --> Tile
-Hazardous --> Tile
-Trap --> Tile
-Interactable --> Tile
+AnimatedTile --> Tile
+AnimatedTile --* Animator
+
+Wall --> AnimatedTile
+Walkable --> AnimatedTile
+Hazardous --> AnimatedTile
+Trap --> AnimatedTile
+Interactable --> AnimatedTile
 
 WellOfCharon --> Interactable
 TrailOfTheGods --> Interactable
 PoolOfPurging --> Interactable
+
+PoolOfItems --* Item
+WellOfCharon --* PoolOfItems
+PoolOfPurging --* PoolOfItems
+TrailOfTheGods --* PoolOfTrails
+
+RoomManager --* PoolOfRooms
+RoomManager --* Player
+RoomManager --* Room
+PoolOfRooms --* Room
+
+Room --* WaveManager
+
+WaveManager --* Enemy
+WaveManager --* PoolOfEnemys
+PoolOfEnemys --* Enemy
+
+Player --* Item
+Player --* Boon
+Player --* PoolOfBoons
+PoolOfBoons --* Boon
+
+Room --* Tile
 @enduml
