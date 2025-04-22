@@ -1,35 +1,89 @@
 @startuml
-class RoomManager
-class Room
-abstract Pool
+
+class RoomManager{
+ +Room CurrentRoom
+}
+
+class Room{
+ +Tile[] Tiles
+ +WaveManager WaveManager
+}
+
+abstract Pool{
+ +T[] PoolOfObjects
+ +GetRandom()
+}
 note top: <i>List of references to randomly pick from</i>
-abstract class "PoolOfRooms"
+
+abstract class "PoolOfRooms"{
+ +Room[] PoolOfObjects
+ +GetRandom()
+}
 
 abstract Tile
-class AnimatedTile
+class AnimatedTile{
+ +Animator TileAnimator
+}
 class Wall
 class Walkable
-class Hazardous
-class Trap
+class Hazardous{
+ +float Damage
+}
+class Trap{
+ +delegate TrapFunction
+}
 class Interactable
 
-class WellOfCharon
-class TrailOfTheGods
-class PoolOfPurging
-abstract class "PoolOfItems"
-abstract class "PoolOfTrails"
+class WellOfCharon{
+ +Item[] Stock
+ +PoolOfItems ItemPool
+}
+class TrailOfTheGods{
+ +PoolOfTrails TrailPool
+}
+class PoolOfPurging{
+ +PoolOfItems ItemPool
+}
+abstract class "PoolOfItems"{
+ +Item[] PoolOfObjects
+ +GetRandom()
+}
+abstract class "PoolOfTrails"{
+ +Trail[] PoolOfObjects
+ +GetRandom()
+}
+
+class Trial{
+ +int MaxReward
+ +int CurrentReward
+ T RewardType
+}
 
 class Item
+class ShopItem{
+ +bool purchased
+}
 
-class Animator
+class Animator{
+ +Sprite[] Sprites
+}
 
-class WaveManager
+class WaveManager{
+ +Enemy[] CurrentWave
+ +PoolOfEnemys EnemyPool
+}
 class Enemy
-abstract class "PoolOfEnemys"
+abstract class "PoolOfEnemys"{
+ +Enemy[] PoolOfObjects
+ +GetRandom()
+}
 
 class Player
 class Boon
-abstract class "PoolOfBoons"
+abstract class "PoolOfBoons"{
+ +Boon[] PoolOfObjects
+ +GetRandom()
+}
 
 AnimatedTile --> Tile
 AnimatedTile --* Animator
@@ -44,9 +98,14 @@ WellOfCharon --> Interactable
 TrailOfTheGods --> Interactable
 PoolOfPurging --> Interactable
 
+ShopItem --> Item
+
 PoolOfItems --* Item
 WellOfCharon --* PoolOfItems
+WellOfCharon --* ShopItem
 PoolOfPurging --* PoolOfItems
+
+PoolOfTrails --* Trial
 TrailOfTheGods --* PoolOfTrails
 
 RoomManager --* PoolOfRooms
@@ -59,6 +118,9 @@ Room --* WaveManager
 WaveManager --* Enemy
 WaveManager --* PoolOfEnemys
 PoolOfEnemys --* Enemy
+
+Enemy --* Animator
+Player --* Animator
 
 Player --* Item
 Player --* Boon
