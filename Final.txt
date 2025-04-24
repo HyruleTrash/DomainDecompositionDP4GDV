@@ -1,0 +1,42 @@
+@startuml
+class DamageInfo
+class BasicAttackCommand
+class SpecialAttackCommand
+class HoldAttackCommand
+class DashAttackCommand
+class SpellAttackCommand
+class InputManager
+class Player
+class BoonInfo
+
+abstract class WeaponType
+abstract class WeaponAspect
+
+interface ICommand
+
+ICommand : Execute();
+BoonInfo : String god;
+WeaponType : int reach; 
+WeaponType : int damage;
+WeaponType : gameObject weaponModel;
+DamageInfo : int Damage;
+
+InputManager *-- Player
+Player *-- BoonInfo
+Player *-- DamageInfo
+
+InputManager --* BasicAttackCommand
+InputManager --* SpecialAttackCommand
+InputManager --* HoldAttackCommand
+InputManager --* DashAttackCommand
+InputManager --* SpellAttackCommand
+
+ICommand *.. BasicAttackCommand
+ICommand *.. SpecialAttackCommand
+ICommand *.. HoldAttackCommand
+ICommand *.. DashAttackCommand
+ICommand *.. SpellAttackCommand
+
+WeaponType <-- WeaponAspect
+DamageInfo --* WeaponType
+@enduml
