@@ -1,0 +1,42 @@
+@startuml
+class BoonManager
+{
+ 
+}
+
+class BoonRepository
+{
+
+}
+
+class BaseBoon
+{
+
+}
+
+class BoonUI
+{
+
+}
+
+interface IBoonMotifier
+{
+
+}
+
+interface IBoonDmgMotifier
+{
+
+}
+
+interface IBoonDevenseMotifier
+{
+
+}
+
+interface ILevels
+{
+
+}
+
+@enduml
