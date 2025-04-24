@@ -17,3 +17,6 @@ Hades, https://store.steampowered.com/app/1145360/Hades/
 - Daan -> Boons,
 - Lucas -> Room generation,
 - Jens -> weapons
+
+# Finished UML
+[./pictures/image.png](https://github.com/HyruleTrash/DomainDecompositionDP4GDV/blob/main/FinishedUML.png?raw=true)
