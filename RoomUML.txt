@@ -9,15 +9,14 @@ class Room{
  +WaveManager WaveManager
 }
 
-abstract Pool{
+class Pool<T>{
  +T[] PoolOfObjects
  +GetRandom()
 }
 note top: <i>List of references to randomly pick from</i>
 
-abstract class "PoolOfRooms"{
- +Room[] PoolOfObjects
- +GetRandom()
+class "PoolOfRooms"{
+ +Pool<Room>
 }
 
 abstract Tile
@@ -44,13 +43,11 @@ class TrailOfTheGods{
 class PoolOfPurging{
  +PoolOfItems ItemPool
 }
-abstract class "PoolOfItems"{
- +Item[] PoolOfObjects
- +GetRandom()
+class PoolOfItems{
+ +Pool<Item>
 }
-abstract class "PoolOfTrails"{
- +Trail[] PoolOfObjects
- +GetRandom()
+class PoolOfTrails{
+ +Pool<Trial>
 }
 
 class Trial{
@@ -73,9 +70,8 @@ class WaveManager{
  +PoolOfEnemys EnemyPool
 }
 class Enemy
-abstract class "PoolOfEnemys"{
- +Enemy[] PoolOfObjects
- +GetRandom()
+class PoolOfEnemys{
+ +Pool<Enemy>
 }
 
 class Player
