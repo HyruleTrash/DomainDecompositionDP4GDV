@@ -1,0 +1,27 @@
+@startuml
+class DamageInfo
+class BasicAttackCommand
+class SpecialAttackCommand
+class HoldAttackCommand
+class DashAttackCommand
+class SpellAttackCommand
+class InputManager
+class Player
+class BoonInfo
+
+abstract class WeaponType
+abstract class WeaponAspect
+
+InputManager*-- Player
+Player *-- BoonInfo
+Player *-- DamageInfo
+
+InputManager--* BasicAttackCommand
+InputManager--* SpecialAttackCommand
+InputManager--* HoldAttackCommand
+InputManager--* DashAttackCommand
+InputManager--* SpellAttackCommand
+
+WeaponType <-- WeaponAspect
+DamageInfo --* WeaponType
+@enduml
