@@ -1,0 +1,277 @@
+@startuml
+
+class BoonRepository
+{
+# Dictyonary <BoonEffects, List<IBoon>> repository;
++ List<BaseBoon> GetBoons(BoonEffects[] types);
+}
+
+class BoonManager
+{
+# BoonPool List<IBoon>;
+# BoonRepository repository; 
++ AddBoons(IBoon[] boons);
++ DeleteBoons(IBoon[] boons);  
+}
+
+enum BoonEffects
+{
+weak
+blitz
+rupture
+deflect
+revenge
+}
+
+class BaseBoon
+{
+# string name;
+# string description;
+# BoonUI boonUI; 
+# int modifier;
+# BoonModifierType type;
++ virtual string GetName();
++ virtual string GetDescription();
++ virtual BoonRarity GetRarity();
++ virtual BoonUI GetBoonUI(); 
++ int GetModifier();
+}
+
+enum BoonModifierType
+{
+Level
+Rarity
+}
+
+class BoonUI
+{
+# sprite icon;
+# color color;
++ sprite GetIcon();
++ color GetColor();
+}
+
+interface IBoon
+{
++ int GetModifier();
+}
+
+abstract class BoonModifierDecorator
+{
+# IBoon boon
+# int modifier
++ void Decorator(IBoon boon);
++ virtual int GetModifier();
+}
+
+class BoonRarityDecorator
+{
+# BoonRarity rarity;
++ override int GetModifier();
++ void SetBoonRarity(BoonRarity rarity);
+}
+
+enum BoonRarity
+{
+common
+rare
+epic
+heroic
+duo
+}
+
+class BoonLevelDecorator
+{
+#int level
++ override int GetModifier();
++ void AddLevel(int level);
++ void SubtractLevel(int level);
+}
+
+class BoonController
+{
++ IBoon boon; 
++ void CreateBoon(BaseBoon definition);
+}
+
+static class BoonFactory
+{
+# BoonManager boonManager;
++ static IBoon Create(BaseBoon boon):
++ void AddBoon( IBoon boon );
+}
+
+
+BaseBoon ..> IBoon
+BoonModifierDecorator ..> IBoon
+BoonManager ..* IBoon
+BoonRepository --* IBoon
+BoonRepository --* BoonEffects
+BoonManager --* BoonRepository
+BaseBoon --* BoonUI
+BaseBoon --* BoonModifierType 
+BoonRarityDecorator --> BoonModifierDecorator
+BoonRarityDecorator --* BoonRarity
+BoonLevelDecorator --> BoonModifierDecorator
+BoonFactory --* BaseBoon
+BoonFactory ..> IBoon
+BoonController ..> BoonFactory 
+
+class DamageInfo
+class BasicAttackCommand
+class SpecialAttackCommand
+class HoldAttackCommand
+class DashAttackCommand
+class SpellAttackCommand
+class InputManager
+class Player
+
+abstract class WeaponType
+abstract class WeaponAspect
+
+interface ICommand
+
+ICommand : Execute();
+WeaponType : int reach; 
+WeaponType : int damage;
+WeaponType : gameObject weaponModel;
+DamageInfo : int Damage;
+
+InputManager *-- Player
+Player --* DamageInfo
+Player --* BoonManager
+
+InputManager --* BasicAttackCommand
+InputManager --* SpecialAttackCommand
+InputManager --* HoldAttackCommand
+InputManager --* DashAttackCommand
+InputManager --* SpellAttackCommand
+
+ICommand *.. BasicAttackCommand
+ICommand *.. SpecialAttackCommand
+ICommand *.. HoldAttackCommand
+ICommand *.. DashAttackCommand
+ICommand *.. SpellAttackCommand
+
+WeaponType <-- WeaponAspect
+DamageInfo --* WeaponType
+
+class RoomManager{
+ +Room CurrentRoom
+}
+
+class Room{
+ +Tile[] Tiles
+ +WaveManager WaveManager
+}
+
+class Pool<T>{
+ +T[] PoolOfObjects
+ +GetRandom()
+}
+note top: <i>List of references to randomly pick from</i>
+
+class "PoolOfRooms"{
+ +Pool<Room>
+}
+PoolOfRooms ..> Pool
+
+abstract Tile
+class AnimatedTile{
+ +Animator TileAnimator
+}
+class Wall
+class Walkable
+class Hazardous{
+ +float Damage
+}
+class Trap{
+ +delegate TrapFunction
+}
+class Interactable
+
+class WellOfCharon{
+ +Item[] Stock
+ +PoolOfItems ItemPool
+}
+class TrailOfTheGods{
+ +PoolOfTrails TrailPool
+}
+class PoolOfPurging{
+ +PoolOfItems ItemPool
+}
+class PoolOfItems{
+ +Pool<Item>
+}
+class PoolOfTrails{
+ +Pool<Trial>
+}
+PoolOfItems ..> Pool
+PoolOfTrails ..> Pool
+
+class Trial{
+ +int MaxReward
+ +int CurrentReward
+ T RewardType
+}
+
+class Item
+class ShopItem{
+ +bool purchased
+}
+
+class Animator{
+ +Sprite[] Sprites
+}
+
+class WaveManager{
+ +Enemy[] CurrentWave
+ +PoolOfEnemys EnemyPool
+}
+class Enemy
+class PoolOfEnemys{
+ +Pool<Enemy>
+}
+PoolOfEnemys ..> Pool
+
+class Player
+
+AnimatedTile --> Tile
+AnimatedTile --* Animator
+
+Wall --> AnimatedTile
+Walkable --> AnimatedTile
+Hazardous --> AnimatedTile
+Trap --> AnimatedTile
+Interactable --> AnimatedTile
+
+WellOfCharon --> Interactable
+TrailOfTheGods --> Interactable
+PoolOfPurging --> Interactable
+
+ShopItem --> Item
+
+PoolOfItems --* Item
+WellOfCharon --* PoolOfItems
+WellOfCharon --* ShopItem
+PoolOfPurging --* PoolOfItems
+
+PoolOfTrails --* Trial
+TrailOfTheGods --* PoolOfTrails
+
+RoomManager --* PoolOfRooms
+RoomManager *-- Player
+RoomManager --* Room
+PoolOfRooms --* Room
+
+Room --* WaveManager
+
+WaveManager --* Enemy
+WaveManager --* PoolOfEnemys
+PoolOfEnemys --* Enemy
+
+Enemy --* Animator
+Player --* Animator
+
+Room --* Tile
+@enduml
