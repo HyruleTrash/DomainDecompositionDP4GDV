@@ -1,0 +1,119 @@
+@startuml
+class BoonRepository
+{
+# Dictyonary <BoonEffects, List<IBoon>> repository;
++ List<BaseBoon> GetBoons(BoonEffects[] types);
+}
+
+class BoonManager
+{
+# BoonPool List<IBoon>;
+# BoonRepository repository; 
++ AddBoons(IBoon[] boons);
++ DeleteBoons(IBoon[] boons);  
+}
+
+enum BoonEffects
+{
+weak
+blitz
+rupture
+deflect
+revenge
+}
+
+class BaseBoon
+{
+# string name;
+# string description;
+# BoonUI boonUI; 
+# int modifier;
+# BoonModifierType type;
++ virtual string GetName();
++ virtual string GetDescription();
++ virtual BoonRarity GetRarity();
++ virtual BoonUI GetBoonUI(); 
++ int GetModifier();
+}
+
+enum BoonModifierType
+{
+Level
+Rarity
+}
+
+class BoonUI
+{
+# sprite icon;
+# color color;
++ sprite GetIcon();
++ color GetColor();
+}
+
+interface IBoon
+{
++ int GetModifier();
+}
+
+abstract class BoonModifierDecorator
+{
+# IBoon boon
+# int modifier
++ void Decorator(IBoon boon);
++ virtual int GetModifier();
+}
+
+class BoonRarityDecorator
+{
+# BoonRarity rarity;
++ override int GetModifier();
++ void SetBoonRarity(BoonRarity rarity);
+}
+
+enum BoonRarity
+{
+common
+rare
+epic
+heroic
+duo
+}
+
+class BoonLevelDecorator
+{
+#int level
++ override int GetModifier();
++ void AddLevel(int level);
++ void SubtractLevel(int level);
+}
+
+class BoonController
+{
++ IBoon boon; 
++ void CreateBoon(BaseBoon definition);
+}
+
+static class BoonFactory
+{
+# BoonManager boonManager;
++ static IBoon Create(BaseBoon boon):
++ void AddBoon( IBoon boon );
+}
+
+
+BaseBoon ..> IBoon
+BoonModifierDecorator ..> IBoon
+BoonManager ..* IBoon
+BoonRepository --* IBoon
+BoonRepository --* BoonEffects
+BoonManager --* BoonRepository
+BaseBoon --* BoonUI
+BaseBoon --* BoonModifierType 
+BoonRarityDecorator --> BoonModifierDecorator
+BoonRarityDecorator --* BoonRarity
+BoonLevelDecorator --> BoonModifierDecorator
+BoonFactory --* BaseBoon
+BoonFactory ..> IBoon
+BoonController ..> BoonFactory 
+
+@enduml
