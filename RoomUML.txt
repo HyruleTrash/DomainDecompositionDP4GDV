@@ -76,9 +76,8 @@ class PoolOfEnemys{
 
 class Player
 class Boon
-abstract class "PoolOfBoons"{
- +Boon[] PoolOfObjects
- +GetRandom()
+class PoolOfBoons{
+ +Pool<Boon>
 }
 
 AnimatedTile --> Tile
