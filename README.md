@@ -19,4 +19,4 @@ Hades, https://store.steampowered.com/app/1145360/Hades/
 - Jens -> weapons
 
 # Finished UML
-[./pictures/image.png](https://github.com/HyruleTrash/DomainDecompositionDP4GDV/blob/main/FinishedUML.png?raw=true)
+![image](https://github.com/user-attachments/assets/a1de606b-8a9d-4241-80a3-ef104801d150)
